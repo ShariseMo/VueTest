@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue读取循环数组</title>
+	<!-- <script type="text/javascript" src="jquery-1.11.3-min.js"></script> -->
+
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+	<style type="text/css">
+		.keys li{list-style-type: none;float:left;font-weight:bold;margin-right:10px;cursor:pointer;}
+	</style>
+</head>
+<body>
+	<div id="test1">
+		<ul v-for="item in items">
+			<li>
+				<p>Name:{{item.name}}</p>
+				<p>Age:{{item.age}}</p>
+				<p>Sex:{{item.sex}}</p>
+			</li>
+		</ul>
+	</div>
+
+	<div id="test2">
+		<ul v-for="(index,key) in keys" class="keys">
+			<li v-on:click="switchTab(index)">{{key.key}}</li><br>
+			<ul v-show="key.selected">
+				<li v-for="item in key.arr">{{item.arrName}}---{{item.arrAge}}</li>
+			</ul>
+		</ul>
+	</div>
+
+
+
+
+	<script type="text/javascript">
+		var data1 =[
+			{
+				"name":"PP",
+				"sex":"girl",
+				"age":"23"
+			},
+			{
+				"name":"Loren",
+				"sex":"boy",
+				"age":"23"
+			},
+		];
+
+		var data2 =[
+			{
+				"key":"ppKey",
+				"arr":[
+					{
+						"arrName":"arr11",
+						"arrAge":"arr12"
+					},
+					{
+						"arrName":"arr21",
+						"arrAge":"arr22"
+					}
+				],
+				"selected": true
+			},
+			{
+				"key":"ppKey22",
+				"arr":[
+					{
+						"arrName":"arr222211",
+						"arrAge":"arr222212"
+					},
+					{
+						"arrName":"arr222221",
+						"arrAge":"arr22222"
+					}
+				],
+				"selected": false
+			}
+		];
+
+
+		new Vue({
+			el:"#test1",
+			data:{
+				items:data1
+			}
+		});
+
+		var methodTest = new Vue({
+			el:"#test2",
+			data:{
+				keys:data2,
+				// items:data2[0]['arr']
+			},
+			methods:{
+				switchTab:function(index){
+					this.keys.forEach(function(value){
+						value.selected = false;
+					});
+					this.keys[index].selected = true;
+				}
+			}
+		});
+
+
+	</script>
+
+
+</body>
+</html>
