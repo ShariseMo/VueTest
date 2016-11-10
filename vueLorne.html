@@ -8,49 +8,59 @@
 	<script type="text/javascript" src="vue.js"></script>
 	<script type="text/javascript" src="jquery-2.1.4.min.js"></script>
 	<style type="text/css">
-		.keys li{list-style-type: none;float:left;font-weight:bold;margin-right:10px;cursor:pointer;}
-		.active{color:red;}
+		*{padding:0;margin:0;}
+		table{background:#FF6600;color:#fff;width:100%;}
+		table tr td,th{border:1px solid #fff;text-align:center;padding:10px;}
+		#tab{margin-top:50px;}
+		#tab ul li{list-style-type: none;float:left;font-weight:bold;cursor:pointer;padding:5px 20px;border:solid #ccc;border-width:1px 1px 0 1px;}
+		.active{background:#ccc;}
 	</style>
 </head>
 <body>
-	<div id="test1">
-		<ul v-for="item in items">
-			<li>
-				<p>Name:{{item.name}}</p>
-				<p>Age:{{item.age}}</p>
-				<p>Sex:{{item.sex}}</p>
-			</li>
-		</ul>
+	<div id="stuList">
+		<table cellspacing="0">
+			<tr>
+				<th>编号</th>
+				<th>姓名</th>
+				<th>年龄</th>
+				<th>性别</th>
+			</tr>
+			<tr v-for="(index,item) in items">
+				<td>{{index+1}}</td>
+				<td>{{item.name}}</td>
+				<td>{{item.age}}</td>
+				<td>{{item.sex}}</td>
+			</tr>
+		</table>
 	</div>
 
-<!-- 	<div id="test2">
-		<ul v-for="(index,key) in keys" class="keys">
-			<li v-on:click="switchTab(index)">{{key.key}}</li><br>
-			<ul v-show="key.selected">
-				<li v-for="item in key.arr">{{item.arrName}}---{{item.arrAge}}</li>
-			</ul>
-		</ul>
-	</div> -->
 
-		<div id="test2">
-		<ul v-for="(index,key) in keys" class="keys">
-			<li v-on:click="switchTab(index)" v-bind:class="{'active':key.selected}">{{key.key}}</li>
+	<div id="tab">
+		<ul v-for="(index,key) in tabList">
+			<li v-on:click="switchTab(index)" v-bind:class="{'active':key.selected}">{{key.classify}}</li>
 		</ul><br>
 
-		<ul v-for="item in items">
-			<li>
-				<p>Name:{{item.arrName}}</p>
-				<p>Age:{{item.arrAge}}</p>
-			</li>
-		</ul>
-		
+		<table cellspacing="0">
+			<tr>
+				<th>书名</th>
+				<th>作者</th>
+				<th>价格</th>
+				<th>编号</th>
+			</tr>
+			<tr v-for="item in items">
+				<td>{{item.bookName}}</td>
+				<td>{{item.bookAuthor}}</td>
+				<td>{{item.bookPrice}}</td>
+				<td>{{item.bookNo}}</td>
+			</tr>
+		</table>
 	</div>
 
 
 
 
 	<script type="text/javascript">
-		var data1 =[
+		var students =[
 			{
 				"name":"PP",
 				"sex":"girl",
@@ -62,182 +72,110 @@
 				"age":"23"
 			},
 		];
-		var data2 =[
+		var books =[
 			{
-				"key":"ppKey",
+				"classify":"名著",
 				"arr":[
 					{
-						"arrName":"arr11",
-						"arrAge":"arr12"
+						"bookName":"红楼梦",
+						"bookAuthor":"曹雪芹",
+						"bookPrice":"32.00",
+						"bookNo":"M001"
 					},
 					{
-						"arrName":"arr21",
-						"arrAge":"arr22"
-					}
+						"bookName":"三国演义",
+						"bookAuthor":"罗贯中",
+						"bookPrice":"33.00",
+						"bookNo":"M002"
+					},
+					{
+						"bookName":"水浒传",
+						"bookAuthor":"施耐庵",
+						"bookPrice":"22.00",
+						"bookNo":"M003"
+					},
+					{
+						"bookName":"西游记",
+						"bookAuthor":"吴承恩",
+						"bookPrice":"36.00",
+						"bookNo":"M004"
+					},
 				],
 				"selected": true
 			},
 			{
-				"key":"ppKey22",
+				"classify":"散文",
 				"arr":[
 					{
-						"arrName":"arr222211",
-						"arrAge":"arr222212"
+						"bookName":"白说",
+						"bookAuthor":"白岩松",
+						"bookPrice":"25.00",
+						"bookNo":"S001"
 					},
 					{
-						"arrName":"arr222221",
-						"arrAge":"arr22222"
-					}
+						"bookName":"看见",
+						"bookAuthor":"柴静",
+						"bookPrice":"26.00",
+						"bookNo":"S002"
+					},
+					{
+						"bookName":"从你的全世界走过",
+						"bookAuthor":"毛阿敏",
+						"bookPrice":"36.00",
+						"bookNo":"S003"
+					},
 				],
 				"selected": false
+			},
+			{
+				"classify":"漫画",
+				"arr":[
+					{
+						"bookName":"黑猫警长",
+						"bookAuthor":"喵喵",
+						"bookPrice":"5.00",
+						"bookNo":"C001",
+					},
+					{
+						"bookName":"猫和老鼠",
+						"bookAuthor":"喵喵",
+						"bookPrice":"10.00",
+						"bookNo":"C002",
+					},
+					{
+						"bookName":"两只老虎",
+						"bookAuthor":"吼吼",
+						"bookPrice":"8.00",
+						"bookNo":"C003",
+					}
+				],
+				"selected":false
 			}
 		];
 		new Vue({
-			el:"#test1",
+			el:"#stuList",
 			data:{
-				items:data1
+				items:students
 			}
 		});
 		var methodTest = new Vue({
-			el:"#test2",
+			el:"#tab",
 			data:{
-				keys:data2,
-				items:data2[0]['arr']
+				tabList:books,
+				items:books[0]['arr']
 			},
 			methods:{
 				switchTab:function(index){
-					this.keys.forEach(function(value){
+					this.tabList.forEach(function(value){
 						value.selected = false;
 					});
-					this.keys[index].selected = true;
-					this.items = data2[index]['arr'];
+					this.tabList[index].selected = true;
+					this.items = books[index]['arr'];
 					console.log(index);
 				}
 			}
 		});
 	</script>
-
-	<script>
-		var arr = [9,78,32,12,4];
-		arr.sort();
-		console.log(arr);
-		arr.sort(function(a,b){
-			return a-b;
-		});
-		console.log(arr);
-
-		// 冒泡算法 
-		function bubbleSort(arr){
-			var i=arr.length , j;
-			var temp;
-			while(i>0){
-				for(j=0;j<i;j++){
-					if(arr[j]>arr[j+1]){  //前者大于后者,exchange
-						temp = arr[j];
-						arr[j] = arr[j+1];
-						arr[j+1] = temp;
-					}
-				}
-				i--;
-			}
-			return arr;
-		}
-
-		function myBubble(arr){
-			var i = arr.length , j;
-			var temp;
-			for(i;i>0;i--){
-				for(j=0;j<i;j++){
-					if(arr[j]>arr[j+1]){
-						temp = arr[j];
-						arr[j]=arr[j+1];
-						arr[j+1]=temp;
-						console.log(arr);
-					}
-					// else if(arr[j]==arr[j+1]){
-					// 	arr.pop(arr[j],1);
-					// 	console.log(i+":"+arr);
-					// 	// debugger;
-					// }
-				}
-			}
-			return arr;
-		}
-
-
-		var arr1 =[3,3,3,4,90,24,54,23,54,3,2,4,3,4,78,3,4,5];
-		console.log(arr1);
-		console.log(arr1.length);
-		var num2 = myBubble(arr1);
-		console.log(num2);
-		// arr1 = [543,2,4,1,53,23,10,5,3,89,43,897,0,38,4,4,4];
-		// var num = bubbleSort(arr1);
-		// console.log(num);
-
-	
-
-		
-
-		// 递归算法
-		function calc(n){
-			var res;
-			if(n>0){
-				return  calc(n-1)*n;
-			}	
-			return(1);
-		}
-
-		console.log(calc(3));
-
-		function calc2(n){
-			var res=1 ;
-			for(var i = 1;i<=n;i++){
-				res = res*i;
-				debugger;
-			}
-			// while(n>1){
-			// 	res = n*res;
-			// 	debugger; 
-			// 	// return res;
-			// 	n--;
-			// }
-			console.log(res);
-			return res;
-		}
-
-		calc2(5);
-
-//冒泡
-function maopao(arry) {
-  for (let i = 0, len = arry.length; i < len;i++){
-    for( let j=i+1; j < arry.length;j++){
-      if( arry[i] > arry[j]) {
-        let tmp = arry[i];
-        arry[i] = arry[j];
-        arry[j] = tmp;
-      }
-    }
-  }
-  return arry;
-}
-
-
-
-function noDouble(arry){
-  let tmpObj = {};
-  let tmpAry = [];
-  for (let i = 0, len = arry.length; i < len;i++){
-    if(!tmpObj[arry[i]]){
-      tmpObj[arry[i]] = arry[i];
-      tmpAry.push(arry[i]);
-    }
-  }
-  return tmpAry;
-}
-console.log(maopao(noDouble([3,3,3,3,4,5,6,7,6,7,8,8,12,3,4,2,9,2,4,4,6,1])));
-
-	</script>
-
 
 </body>
 </html>
