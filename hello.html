@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>学习Vue  001</title>
+	<style type="text/css">
+	.pagination li{float:left;margin:10px;border:1px solid #ccc;width:40px;text-align:center;list-style-type: none;cursor:pointer;}
+	.pagination li a{width:100%;display:inline-block;text-decoration: none}
+	.active{background: green;color:#fff;}
+	</style>
+</head>
+<body>
+	<!-- 这是我们的View -->
+	<div id="app">
+		<p>{{msg}}</p>
+		<input type="text" v-model="msg"/>
+		<!-- v-if -->
+		<h1 v-if="yes">yes</h1>
+		<h1 v-if="no">no</h1>
+		<h1 v-if="age >= 25">Age:{{age}}</h1>
+		<h1 v-if="name.indexOf('jack') >= 0">name:{{name}}</h1>
+		<h1 v-else>name:pp</h1>
+		<!-- v-for -->
+		<ul>
+			<li v-for="item in items">
+				<p>{{item.name}}</p>
+				<p>{{item.age}}</p>
+				<p>{{item.sex}}</p>
+			</li>
+		</ul>
+		<!-- v-bind -->
+		<ul class="pagination">
+			<li v-for="n in pageCount">
+				<a href="javascript:void(0)" v-bind:class="activeNum === n ? 'active' : '' ">{{n}}</a>
+			</li>
+		</ul>
+		<!-- v-on -->
+		<button v-on:click="greet">Greet</button>
+		<button v-on:click="say('Hi')">Hi</button>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script>
+		// 这是我们的model
+		var  exampleData = {
+			msg:"Hello World !!!"
+		}
+		// 创建一个Vue实例（viewModel）
+		new Vue({
+			el:"#app",
+			data:{
+				msg:"Hello World !!!",
+				yes:true,
+				no:false,
+				age:28,
+				name:"keepfool",
+				items:[
+					{name:"pp",age:23,sex:"female"},
+					{name:"Lorne",age:23,sex:"male"}
+				],
+				activeNum:1,
+				pageCount:10,
+			},
+			methods:{
+				greet:function(){
+					alert(this.msg);
+				},
+				say:function(aa){
+					alert(aa);
+				}
+			}
+		});
+	</script>
+</body>
+</html>
