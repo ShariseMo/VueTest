@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .left {
+      position: fixed;
+      left: 0;
+      height: 100%;
+      width: 100px;
+    }
+    
+    .right {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 20px;
+    }
+    .content{
+      margin: 0 20px 0 100px;
+    }
+    a{
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      text-align: center;
+    }
+    .left .item{
+      padding: 15%;
+      height: 9%;
+    }
+    .left a{
+      color: black;
+    }
+    .left .isActive{
+      background-color: #eee;
+      
+    }
+    .left .isActive a{
+      color: orange;
+    }
+    .right .item{
+      height: 3.8%;
+    }
+    .content{
+      background-color: #eee;
+    }
+    .content .item .goods-wrap .img-wrap img{
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="left">
+      <div class="item" v-for="(item,key) in leftMenu" :class="{isActive: item.active}">
+        <a href="javascript:void(0)" @click="menuActive(key)">{{item.menuName}}</a>
+      </div>
+    </div>
+    <div class="content" id="test">
+        <div class="item" v-for="item in content">
+          <div class="title" :id="item.name">{{item.name}}</div>
+          <div class="goods-wrap">
+            <div class="img-wrap" v-for="good in item.content">
+              <img :src="good.imgUrl" alt="">
+              {{good.des}}
+            </div>
+          </div>
+        </div>
+      <div class="titile"></div>
+    </div>
+    <div class="right">
+      <div class="item" v-for="item in letter">
+        <a href="javascript:void(0)" @click="goIndex(item)">{{item}}</a>
+      </div>
+    </div>
+  </div>
+  <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+  <script src="http://cdn.bootcss.com/vue/2.1.4/vue.min.js"></script>
+  <script>
+  var sort = {
+    name: 'leftMeun',
+    value: [
+      {menuName: '推荐分类',active: true},
+      {menuName: '类型',active: false},
+      {menuName: '风格',active: false},
+      {menuName: '空间',active: false},
+      {menuName: '材质',active: false},
+      {menuName: '颜色／工艺',active: false},
+      {menuName: '品牌',active: false},
+      {menuName: '价格',active: false},
+      {menuName: '行业称谓',active: false},
+      {menuName: '家具饰品',active: false},
+      {menuName: '家居',active: false}
+    ]
+  };
+  var letter = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','S','Y','Z' ];
+  var content = {
+    total: 30,
+    response: [
+      { name : 'A', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'B', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'C', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'D', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'E', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'F', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'G', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'H', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'I', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'J', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'K', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'L', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'M', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+      { name : 'N', content: [
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+        {imgUrl: 'p3.jpg',des: 'xxxxx'},
+      ]},
+    ]
+  }
+  var app = new Vue({
+    el: '#app',
+    data: {
+      leftMenu: sort.value,
+      message: 'Hello Vue!',
+      letter: letter,
+      classObj: {
+        active: true
+      },
+      content: content.response
+    },  
+    methods:{
+      menuActive: function(key){
+        this.leftMenu = this.leftMenu.map(function(item){
+           item.active = false;
+           return item;
+        });
+        this.leftMenu[key].active = true;
+      },
+      goIndex: function(index){
+        var scTop = $(`#${index}`).offset().top;
+        $('body').animate({
+                      scrollTop: scTop
+                  }, 800);
+        console.log(scTop);
+      }
+    }
+  });
+  
+  </script>
+</body>
+
+</html>
