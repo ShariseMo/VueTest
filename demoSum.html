@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue综合实例小例子</title>
+	<style type="text/css">
+	.btn_green{display:inline-block;padding:5px 10px;color:#fff;background:#009A61;border-radius:3px;}
+	
+	table th{background:#009A61;border:1px solid #ddd;color:#fff;padding:5px 20px;}
+	table td{padding:5px 20px;border:1px solid #ddd;}
+	table tr:nth-child(odd) td{background:#EDEDED;}
+	</style>
+</head>
+<body>
+	<!-- view -->
+<div id="app">
+	<h1>Create new person</h1>
+	<form class="info_form">
+		<p>Name:<input type="text" v-model="person.name"/></p>
+		<p>Age:<input type="text" v-model="person.age"/></p>
+		<p>Sex:
+		<select v-model="person.sex">
+			<option value="male">Male</option>
+			<option value="female">Female</option>
+		</select></p>
+		<p><a class="btn_green" v-on:click="createPerson">Create</a></p>
+	</form>
+
+	<table cellspacing="0">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Sex</th>
+			<th>Delete</th>
+		</tr>
+		<tr v-for="(item,index) in personCollection">
+			<td>{{item.name}}</td>
+			<td>{{item.age}}</td>
+			<td>{{item.sex}}</td>
+			<td><button class="btn_green" @click="delPerson(index)">Delete</button></td>
+		</tr>
+	</table>
+</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script>
+	// model
+		new Vue({
+			el:"#app",
+			data:{
+				person:{
+					index:"",
+					name:"",
+					age:0,
+					sex:"male"
+				},
+				personCollection:[
+					// {name:"pp",age:"24",sex:"male"},
+					// {name:"pp2",age:"24",sex:"male"},
+				]
+			},
+			methods:{
+				createPerson:function(){
+					this.personCollection.push(this.person);
+					this.person = {index:'',name:'',age:0,sex:"male"};
+				},
+				delPerson:function(idx){
+					this.personCollection.splice(idx,1);
+				}
+			}
+		});
+
+		
+
+	</script>
+</body>
+</html>

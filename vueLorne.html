@@ -36,7 +36,7 @@
 
 
 	<div id="tab">
-		<ul v-for="(index,key) in tabList">
+		<ul v-for="(key,index) in tabList">
 			<li v-on:click="switchTab(index)" v-bind:class="{'active':key.selected}">{{key.classify}}</li>
 		</ul><br>
 
