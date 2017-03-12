@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>按照字母跳转</title>
+    <style type="text/css">
+        *{margin:0;padding:0;box-sizing: border-box;}
+        li{list-style: none;}
+        body{margin:0;padding:0;height:100%;}
+        .left{position:fixed;width:23%;float:left;border:1px solid #ccc;height:100%;text-align:center;}
+        .menu_container{width:100%;}
+        .menu_container li{line-height:30px;padding:10px;border-bottom:1px solid #ccc;}
+        .menu_container li.active{background:#f60;color:#fff;}
+
+        .content{margin-left:25%;width:75%;}
+        .right{position:fixed;right:0;top:0;padding:10px;height:100%;overflow:auto;}
+        .right h4{margin-top: 10px;}
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="left">
+            <ul class="menu_container">
+                <li v-for="(item,key) in leftMenu" :class="{active:item.active}" @click="menuActive(key)">{{item.menuName}}</li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="item" v-for="(item,key) in content" :id="item.name">
+                <h2>{{item.name}}</h2>
+                <div class="goodsWrapper">
+                    <div v-for="good in item.content">
+                        <img :src="good.imgUrl">
+                        {{good.des}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <h4 v-for="item in letter" @click="goIndex(item)">{{item}}</h4>
+        </div>
+    </div>
+    <!-- <script type="text/javascript" src="./jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="./vue.js"></script> -->
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/vue/2.1.4/vue.min.js"></script>
+    <script>
+        var menu = {
+            name:"leftMenu",
+            value:[
+                {"menuName":'推荐分类', "active":true},
+                {"menuName":"类型", "active":false},
+                {"menuName":"风格", "active":false},
+                {"menuName":"空间", "active":false},
+                {"menuName":"材质", "active":false},
+            ]   
+        };
+        var letter = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        var content = {
+            total: 20,
+            response:[
+                {
+                    name:"A",
+                    content:[
+                        {imgUrl:"aa.jpg",des:"xxxxx"},
+                        {imgUrl:"aa.jpg",des:"xxxxx"},
+                        {imgUrl:"aa.jpg",des:"xxxxx"},
+                        {imgUrl:"aa.jpg",des:"xxxxx"}
+                    ]
+                },{
+                    name:"B",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{
+                    name:"C",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{
+                    name:"D",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{
+                    name:"E",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{
+                    name:"F",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{
+                    name:"G",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{
+                    name:"H",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"I",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"J",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"K",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"L",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"M",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"N",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"O",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },{ 
+                    name:"P",
+                    content:[
+                        {imgUrl:"bb.jpg",des:"xxxxx"},
+                        {imgUrl:"bb.jpg",des:"zzzzz"}
+                    ]
+                },
+            ]
+        }
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                leftMenu : menu.value,
+                content : content.response,
+                letter : letter
+            },
+            methods:{
+                menuActive:function(key){
+                    this.leftMenu = this.leftMenu.map(function(item){
+                        item.active = false;   //将所有的active数据设置为false
+                        return item;
+                    });
+                    this.leftMenu[key].active = true;
+                },
+                goIndex:function(index){
+                    var scTop = $("#"+index).offset().top;
+                    console.log(scTop);
+                    $("body").animate({
+                        scrollTop:scTop
+                    },500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
